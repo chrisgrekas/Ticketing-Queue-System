@@ -9,7 +9,7 @@ class ConcertQueue:
         self.capacity=capacity
         self.location=location
         self.cost=cost
-        self.max_size=100
+        # self.max_size=capacity
         self.size=0
     
     def __repr__(self):
@@ -18,10 +18,10 @@ class ConcertQueue:
     def get_size(self):
         return self.size
     def has_space(self):
-        if self.max_size==None:
+        if self.capacity==None:
             return True
         else:
-            return self.max_size>self.get_size()
+            return self.capacity>self.get_size()
     def is_empty(self):
         return self.size==0
     def enqueue(self,name,amount):
@@ -42,7 +42,7 @@ class ConcertQueue:
     def dequeue(self):
         if self.get_size()>0:
             person_to_remove=self.head
-            print(f"{person_to_remove.get_value()}has been served!")
+            print(f"{person_to_remove.get_value()} has been served!")
             if self.get_size()==1:
                 self.head=None
                 self.tail=None
@@ -51,54 +51,15 @@ class ConcertQueue:
                 self.head.set_prev_person(None)
 
             self.size-=1
+            # ελέγχος διαθεσιμότητας
+            if self.capacity>=person_to_remove.amount:
+                self.capacity-=person_to_remove.amount
+                for _ in range(person_to_remove.amount):
+                    person_to_remove.add_ticket(Ticket())
+                print(f"{person_to_remove.get_value()} αγόρασε {person_to_remove.amount} εισητήρια.")
+            else:
+                print(f"Δεν υπάρχουν αρκέτα διαθέσημα εισητήρια για τόν /την {person_to_remove.get_value()}")
             return person_to_remove
         
         else:
             print("The Queue is empty!")
-
-# --- ΔΟΚΙΜΗ ΣΥΣΤΗΜΑΤΟΣ (ΤΑΜΕΙΟ) ---
-
-# 1. Δημιουργούμε την εκδήλωση με μικρό capacity (π.χ. 5 εισιτήρια) για να δούμε τι θα γίνει 
-concert = ConcertQueue("Lex", 5, "OAKA", 15)
-print("--- Ξεκινάει η προπώληση! ---")
-print(concert)
-print("-" * 30)
-
-# 2. Μπαίνουν πελάτες στην ουρά
-concert.enqueue("Christos", 3)
-concert.enqueue("Maria", 4)  # Η Μαρία ζητάει 4, αλλά θα έχουν μείνει μόνο 2!
-concert.enqueue("Nikos", 1)
-print("-" * 30)
-
-# 3. Ξεκινάει η εξυπηρέτηση (όσο η ουρά ΔΕΝ είναι άδεια)
-while not concert.is_empty():
-    current_person = concert.dequeue()
-    
-    # Εδώ τραβάμε τα δεδομένα από το αντικείμενο Person που μας επέστρεψε η dequeue
-    name = current_person.get_value()
-    tickets_wanted = current_person.amount
-    
-    print(f"\n> Στο ταμείο: Ο/Η {name} ζητάει {tickets_wanted} εισιτήρια.")
-    
-    # Έλεγχος διαθεσιμότητας
-    if concert.capacity >= tickets_wanted:
-        # Υπάρχουν αρκετά εισιτήρια! Τα αφαιρούμε από το Event.
-        concert.capacity -= tickets_wanted
-        
-        # Εδώ κανονικά θα φτιάχναμε και τα αντικείμενα Ticket!
-        print(f"✅ Επιτυχία! Δόθηκαν {tickets_wanted} εισιτήρια. Απομένουν: {concert.capacity}")
-    else:
-        # Δεν φτάνουν τα εισιτήρια!
-        print(f"❌ Αποτυχία... Έχουμε μόνο {concert.capacity} διαθέσιμα. Η κράτηση ακυρώθηκε.")
-
-print("\n--- Το ταμείο έκλεισε! ---")
-
-
-
-
-
-
-        
-
-# concert=ConcertQueue("Lex",60000,"OAKA",15)
-# print(concert)
