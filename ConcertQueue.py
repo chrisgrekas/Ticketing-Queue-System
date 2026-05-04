@@ -63,3 +63,36 @@ class ConcertQueue:
         
         else:
             print("The Queue is empty!")
+    def dequeue_by_value(self,value):
+        current=self.head
+        person_to_remove=None
+        while current !=None:
+            if current.get_value()==value:
+                person_to_remove=current
+                break
+            current=current.get_next_person()
+        if person_to_remove==None:
+            return None
+        if person_to_remove == self.head:
+            self.head = person_to_remove.get_next_person()
+            if self.head is not None:        
+                self.head.set_prev_person(None)
+            else:
+                self.tail = None            
+        elif person_to_remove == self.tail:
+            self.tail = person_to_remove.get_prev_person()
+            if self.tail is not None:
+                self.tail.set_next_person(None)
+            else:
+                self.head=None
+
+            
+        else:
+            next_person=person_to_remove.get_next_person()
+            prev_person=person_to_remove.get_prev_person()
+            next_person.set_prev_person(prev_person)
+            prev_person.set_next_person(next_person)
+        self.size-=1
+        return person_to_remove
+                
+        

@@ -5,10 +5,10 @@ print("--- Ξεκινάει η προπώληση! ---")
 print(concert)
 print("-" * 30)
 
-concert.enqueue("Christos", 3)
-concert.enqueue("Maria", 4)
-concert.enqueue("Nikos", 1)
-print("-" * 30)
+# concert.enqueue("Christos", 3)
+# concert.enqueue("Maria", 4)
+# concert.enqueue("Nikos", 1)
+# print("-" * 30)
 
 while not concert.is_empty():
     current_person = concert.dequeue()
@@ -19,3 +19,12 @@ while not concert.is_empty():
             print(f"   {ticket}")
 
 print("\n--- Το ταμείο έκλεισε! ---")
+concert.enqueue("Christos", 3)
+concert.enqueue("Maria", 4)
+concert.enqueue("Nikos", 1)
+
+removed = concert.dequeue_by_value("Maria")
+if removed:
+    print(f"Αφαιρέθηκε: {removed.get_value()}")
+else:
+    print(" Δεν βρέθηκε!")
