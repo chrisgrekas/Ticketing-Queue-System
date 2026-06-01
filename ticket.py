@@ -1,11 +1,9 @@
 import uuid
+
+
 class Ticket:
     def __init__(self):
-        self.id="TCT- "+str(uuid.uuid4())
-    
-    def __str__(self):
-        return f"{self.id} has been sold"
+        self.id = "TCT-" + str(uuid.uuid4())
 
-# my_ticket=Ticket()
-# print(my_ticket)
-    
+    def __str__(self) -> str:
+        return f"{self.id} sold"
